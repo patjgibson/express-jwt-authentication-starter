@@ -14,27 +14,36 @@ require('dotenv').config();
  * DB_STRING_PROD=<your production database string>
  */ 
 
-const devConnection = process.env.DB_STRING;
-const prodConnection = process.env.DB_STRING_PROD;
+// const devConnection = process.env.DB_STRING;
+// const prodConnection = process.env.DB_STRING_PROD;
 
-// Connect to the correct environment database
-if (process.env.NODE_ENV === 'production') {
-    mongoose.connect(prodConnection, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+// // Connect to the correct environment database
+// if (process.env.NODE_ENV === 'production') {
+//     mongoose.connect(prodConnection, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     });
 
-    mongoose.connection.on('connected', () => {
-        console.log('Database connected');
-    });
-} else {
-    mongoose.connect(devConnection, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+//     mongoose.connection.on('connected', () => {
+//         console.log('Database connected');
+//     });
+// } else {
+//     mongoose.connect(devConnection, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     });
 
-    mongoose.connection.on('connected', () => {
-        console.log('Database connected');
-    });
-}
+//     mongoose.connection.on('connected', () => {
+//         console.log('Database connected');
+//     });
+// }
 
+const { Pool } = require("pg");
+
+module.exports = new Pool({
+    host: process.env.HOST, // or wherever the db is hosted
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.DB_PORT
+  });
